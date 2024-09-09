@@ -16,7 +16,7 @@ syntax = "proto3";
 
 import "github.com/openconfig/gnmi/proto/gnmi/gnmi.proto";
 
-package gsii;
+package gsii.v1;
 
 option go_package = "github.com/openconfig/gsii/v1/proto/gsii;gsii";
 
