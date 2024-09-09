@@ -1,0 +1,177 @@
+// Copyright 2024 The OpenConfig Contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+import "github.com/openconfig/gnmi/proto/gnmi/gnmi.proto";
+
+package gsii;
+
+option go_package = "github.com/openconfig/gsii/v1/proto/gsii;gsii";
+
+// gSII is the gRPC State Injection Interface -- it allows state to be injected
+// into a network element. This state is defined to be dynamic and changes
+// quickly.  It shares several properties with a traditional "control plane"
+// protocol.
+//
+// gSII is pronounced "gee-see".
+service gSII {
+  // Modify is a stream of updates that update the dynamic state of a target
+  // using gRPC. The Modify stream provides a set of updates that are being
+  // made to the state of a networking device.
+  rpc Modify(stream ModifyRequest) returns (stream ModifyResponse); }
+
+// ModifyRequest is sent by the client to the target to make a modification to
+// dynamic configuration on the device.
+message ModifyRequest {
+  // params is specified once at the start of a session to indicate the details
+  // of the mode that should be used for the session.
+  SessionParameters params = 1;
+
+  // The new_election_id field is used in an input message to indicate that a
+  // new election has occurred and update the server as to the latest election
+  // ID. The server arbitrates based on the input election ID that is provided
+  // on a per operation basis.
+  //
+  // The election ID is set specifically for the role that the client is
+  // within.
+  //
+  // TODO(robjs): Determine whether we can use gnmi_ext.MasterArbitration here.
+  Uint128 new_election_id = 2;
+
+  // The set of operations that are to be applied to the target.
+  repeated Operation op = 3;
+}
+
+// Uint128 stores a 128-bit unsigned integer.
+message Uint128 {
+  // The high 64-bits of the uint128.
+  uint64 high = 1;
+  // The low 64-bits of the uint128.
+  uint64 low = 2;
+}
+
+message SessionParameters {
+  // PersistenceMode indicates the type of persistence that is requested
+  // of the server.
+  enum PersistenceMode {
+    // INVALID indicates that the client did not specify a value for the
+    // persistence mode.
+    INVALID_PERSISTENCE = 0;
+    // DELETE indicates that when the `Modify` RPC that is being used by
+    // the client terminates, the server should remove all entries that
+    // are associated with the client.
+    DELETE = 1;
+    // PRESERVE indicates that when the `Modify` RPC that is being used
+    // by the client terminates, the server should continue to store and
+    // use the entries that are associated with the client.
+    PRESERVE = 2;
+  }
+  PersistenceMode persistence = 1;
+
+  // ClientRedundancy indicates the type of redundancy that is expected of the
+  // server. All clients that are connected for the same role must agree on the
+  // redundancy mode.
+  enum ClientRedundancy {
+    INVALID_REDUNDANCY = 0; // The client did not set the redundancy mode.
+    ALL_PRIMARY = 1;
+    SINGLE_PRIMARY = 2;
+  }
+  ClientRedundancy redundancy = 2;
+
+  // role indicates a group for which athe election ID is relevant to. This
+  // allows for subsets of the schema to have separate clients that are
+  // authoritative for the subset of the data tree. See gnmi_ext.proto and
+  // https://github.com/openconfig/reference/blob/master/rpc/gnmi/gnmi-master-arbitration.md
+  // for additional details.
+  //
+  // A client (i.e., individual RPC context) participates in exactly one role.
+  // The role is immutable throughout the lifetime of the RPC. The role MUST
+  // be set for a client.
+  string role = 3;
+
+  // client_details provides details that indicate the initial state of
+  // a client.
+  oneof client_details {
+    // initial_election_id provides the current election ID at the time
+    // of connection.
+    Uint128 initial_election_id = 4;
+    // client_id provides a stable identifier for this client to be used
+    // in ALL_PRIMARY modes.
+    Uint128 client_id = 5;
+  }
+}
+
+// ElectionID is a <role, election ID> tuple.
+message ElectionID {
+  // role is the string that identifies the role for which the client
+  // RPC is providing state.
+  string role = 1;
+  // election_id is the uint128 election ID.
+  Uint128 election_id = 2;
+}
+
+// Operation is an individual operation that acts on a specific <path, value>
+// on the device.
+message Operation {
+  // Operation is the type of operation that should be applied on the device.
+  enum OperationType {
+    // INVALID indicates the client did not set the operation.
+    INVALID = 0;
+    // ADD indicates the value is being added. ADDs for existing paths are
+    // interpreted as a replace. ADD is an idempotent operation.
+    ADD = 1;
+    // DELETE indicates that the value is being deleted. When a DELETE is
+    // sent, the value within the dynamic store is removed, and the value
+    // specified by persistent configuration storage is utilised.
+    DELETE = 2;
+  }
+  OperationType op = 1;
+
+  // The gnmi Path being updated.
+  gnmi.Path path = 2;
+  // The gnmi TypedValue encoding for a value that is being set.
+  gnmi.TypedValue value = 3;
+}
+
+// ModifyResponse is sent from the target to the client in response to a
+// ModifyRequest.
+message ModifyResponse {
+  oneof result {
+    // SessionParametersResult is sent as the first response on a particular
+    // RPC to indicate the target's response to the client's requested
+    // parameters.
+    SessionParametersResult session_params_result = 1;
+    // latest_election_id is sent as a response to a ModifyRequest that
+    // includes the new_election_id field. The value is set to the latest
+    // election ID that is known by the target.
+    ElectionID latest_election_id = 2;
+  }
+  repeated OpResult results = 3;
+}
+
+message OpResult {}
+
+// SessionParametersResult is used as a response from the target to the client
+// to indicate that the session parameters have been accepted. If an error
+// occurs, it should be reported through terminating the RPC, and populating a
+// status.Status message indicating the error code and details.
+message SessionParametersResult {
+  enum Status {
+    INVALID = 0; // The target did not set the field correctly.
+    OK = 1; // The target accepted the session parameters.
+  }
+  Status status = 1;
+}
+
