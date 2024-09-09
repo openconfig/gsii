@@ -218,16 +218,16 @@ input format. This has advantages over `json_ietf_val` since:
 
 *   The on-the-wire data volume is significantly smaller if a subtree is
     provided - since string values that make up the `path` are no longer
-encoded.
+    encoded.
 *   A protobuf value can be generated from a YANG schema using the ygot suite
     of tools, and this approach is well-proven in gRIBI.
 *   Since limited/no validation will need to occur in this scenario – and
     control plane systems likely do not already support YANG-modelled data,
-    this increases the applicability of this interface beyond languages that 
+    this increases the applicability of this interface beyond languages that
     have existing YANG tooling ecosystems. The advantages of YANG over protobuf
-    tend to be in its ability to express more detailed constraints around the 
+    tend to be in its ability to express more detailed constraints around the
     data that is carried in the message. In the case that smaller subsets of
-    state are being updated, there is little to no need for this 
+    state are being updated, there is little to no need for this
     cross-validation within a wider tree.
 
 It is not our initial expectation that every OpenConfig subtree be supported
@@ -276,6 +276,26 @@ the target does not apply the update with value `2` after value `3`. This
 assumes the existence of a coalescing queue on input. The client SHOULD NOT
 assume that transactions for different paths are processed in the order in
 which they are received.
+
+### Persistence of Configuration
+
+Like other control-plane protocols, the "dynamic" configuration of a device
+is not expected to be persisted across device reboots. Data that is written
+via gNMI to a `config` path is expected to be persisted after each transaction.
+Not requiring persistence of data across reloads allows both for the
+target device to avoid the cost of writing the configuration to persistent
+storage (potentially reducing throughput); as well as models where a "default"
+value is written to a persistent `config` path, and an amended value is written
+to the `dynamic` path according to some runtime condition of the wider network
+system.
+
+Note that `persistence` within the service definition refers to persistence
+across RPCs (i.e., clients connecting or disconnecting) not across device
+reboots.
+
+It is expected that dynamic configuration persists across device control-plane
+card switchovers (simililarly to gRIBI) such that a client switchover does not
+require an external controller to re-push the dynamic configuration.
 
 ### Security
 
