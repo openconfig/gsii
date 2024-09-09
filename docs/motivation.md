@@ -257,6 +257,25 @@ discovered. Protobufs would be generated or written to correspond to the
 The `dynamic` path SHOULD be streamed via gNMI `Subscribe` as per the existing
 expectations around the `config` path.
 
+#### Determining the System's applied state value
+
+Today, the intended state (`config`) path is the value that a client expects
+the target to be running for the specified leaf. With the introduction of the
+`dynamic` path, there is a requirement to choose between the `config` and the
+`dynamic` path.
+
+It is proposed that the target adopts the rule of:
+
+ * if the `dynamic` leaf is present, this is the preferred value and should
+   be used,
+ * if no `dynamic` leaf is present, the intended state (`config` path) should
+   be used.
+
+with a strict preference to prefer the dynamic configuration value. In the case
+that the `dynamic` value is removed (e.g., due to an RPC failure with a
+persistence mode that indicates that the values should be cleared on RPC
+failure), the system should apply the `config` value if one is present.
+
 ### Validation Requirements
 
 In order to ensure that the application time of the configuration is minimised
