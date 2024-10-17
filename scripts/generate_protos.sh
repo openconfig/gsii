@@ -31,6 +31,7 @@ curl -o ${SRC_DIR}/v1/build_deps/github.com/openconfig/gnmi/proto/gnmi_ext/gnmi_
 
 cd ${SRC_DIR}
 protoc -I${SRC_DIR} -I ${SRC_DIR}/v1/build_deps --go-grpc_out=. --go-grpc_opt=paths=source_relative --go_out=. --go_opt=paths=source_relative ${SRC_DIR}/v1/proto/gsii/gsii.proto
-protoc -I${SRC_DIR} -I ${SRC_DIR}/v1/build_deps --go_out=. --go_opt=paths=source_relative ${SRC_DIR}/v1/proto/openconfig/gsii_interfaces_proto/gsii_interfaces_proto.proto
+protoc -I${SRC_DIR} -I ${SRC_DIR}/v1/build_deps --go_out=. --go_opt=paths=source_relative ${SRC_DIR}/v1/proto/openconfig/gsii/v1/interfaces/interfaces.proto
+protoc -I${SRC_DIR} -I ${SRC_DIR}/v1/build_deps --go_out=. --go_opt=paths=source_relative ${SRC_DIR}/v1/proto/openconfig/gsii/v1/qos/qos.proto
 
 rm -rf ${SRC_DIR}/v1/build_deps
