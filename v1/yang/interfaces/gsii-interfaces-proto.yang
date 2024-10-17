@@ -1,0 +1,89 @@
+// Copyright 2024 The OpenConfig Authors 
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+module gsii-interfaces-proto {
+  namespace "http://github.com/openconfig/gsii/v1/obj/interfaces/proto";
+  prefix "gsii-int-proto";
+
+  import openconfig-interfaces { prefix "oc-if"; }
+  import gsii-interfaces { prefix "gsii-if"; }
+
+  organization
+    "OpenConfig working group";
+  
+  contact
+    "www.openconfig.net";
+
+  description
+    "This module defines deviations that allow for gSII protobufs
+    to be generated for the OpenConfig path /interfaces/interface.";
+  
+  uses oc-if:interfaces-top;
+
+  augment "/interfaces/interface" {
+    description
+      "Augment the /interfaces tree with gSII state parameters.";
+    uses gsii-if:interfaces-structural;
+  }
+
+  deviation "/interfaces/interface/config/type" {
+    description
+      "Do not generate protobuf for the intended state within the
+      openconfig-interfaces module.";
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/mtu" {
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/loopback-mode" {
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/description" {
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/enabled" {
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/state" {
+    description
+      "Do not generate protobuf for the operational state within the
+      openconfig-interfaces module.";
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/subinterfaces" {
+    description
+      "Do not generate protobuf for the subinterfaces subtree within
+      the openconfig-interfaces module.";
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/hold-time" {
+    description
+      "Do not generate protobuf for the hold-time subtree within
+      the openconfig-interfaces module.";
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/penalty-based-aied" {
+    description
+      "Do not generate protobuf for the penalty-based-aied subtree
+      within the openconfig-interfaces module.";
+    deviate not-supported;
+  }
+}
