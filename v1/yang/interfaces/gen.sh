@@ -13,4 +13,5 @@ ${HOME}/go/bin/proto_generator \
 	-generate_fakeroot=false \
 	-exclude_modules=ietf-interfaces,openconfig-interfaces \
 	-package_name=openconfig \
+	-go_package_base="github.com/openconfig/gsii/v1/proto" \
 	${REPOROOT}/v1/yang/interfaces/gsii-interfaces-proto.yang

@@ -12,6 +12,8 @@ package openconfig.gsii_interfaces_proto;
 import "github.com/openconfig/ygot/proto/ywrapper/ywrapper.proto";
 import "github.com/openconfig/ygot/proto/yext/yext.proto";
 
+option go_package = "github.com/openconfig/gsii/v1/proto/openconfig/gsii_interfaces_proto";
+
 message Interfaces {
   message Interface {
     message Volatile {
