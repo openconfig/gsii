@@ -5,7 +5,7 @@ May 2024
 
 > [!NOTE]
 > For SDN applications there are cases where there is a need to manipulate
-> parameters that are traditionally part of a WBB device's' "configuration" in
+> parameters that are traditionally part of a device's' "configuration" in
 > a manner that allows for faster application, and ephemeral application. This
 > document defines an extension to the g* suite of protocols (a new gNMI
 > sub-service) that allows for control-plane systems to manipulate such
