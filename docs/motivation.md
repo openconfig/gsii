@@ -130,7 +130,7 @@ can be triggered by an NOS-external application.
 
 ## Requirements
 
-* **[R1]** The elements that are provided as a dynamic parameter should be _in
+* **[R1]** The elements that are able to be changed more rapidly should be _in
   addition_ to the current static “intended” state of a device. It should be
   possible to fall back from the configuration that is provided to the current
   static intended state of the device.
@@ -145,10 +145,10 @@ can be triggered by an NOS-external application.
 * **[R3]** The API provided must be asynchronous – rather than the current
   synchronous `Set` provided by gNMI. Each “write” should be responded to
   individually with an ACK, or NACK.
-* **[R4]** It must be possible to relate the dynamically provided state to that
+* **[R4]** It must be possible to relate the rapidly-changing state to that
   which is provided by current “configuration” APIs. Particularly, it should be
-  possible to understand what the dynamic state is, what the current intended
-  state is, and subsequently what the applied state is.
+  possible to understand what the rapidly-changing state is, what the current
+  intended state is, and subsequently what the applied state is.
 * **[R5]** Authentication, and authorisation of the API should use standard
   mechanisms that allow for both RBAC, as well as payload authentication (e.g.,
   path-based authentication).
@@ -184,10 +184,9 @@ determines:
     outside of the target, and the target is solely responsible for enforcing
     that the `election_id` received in each `SetOperation` corresponds to the
     `election_id `that is the current master
-*   Persistence mode – determining whether the failure of <span
-    style="text-decoration:underline;">this</span> controller’s RPC results in
-    the received input being flushed, or it is rather flushed only when specified
-    by an explicit signal.
+*   Persistence mode – determining whether the failure of _this_ controller’s 
+    RPC results in the received input being flushed, or it is rather flushed
+    only when specified by an explicit signal.
 
 In order to allow for removal of all entries in a failure case, a `Flush` RPC
 will be provided to remove dynamically written state that is being persisted.
@@ -235,10 +234,10 @@ via this new API – since clearly there are some cases where strong validation
 is needed (e.g., dynamically being able to remove a linecard would mean also
 invalidating many other entities that depend on that linecard and its
 interfaces - so it does not seem a good candidate for the mechanisms
-corresponding to dynamic updates described in this document). Therefore, we
-propose that where payloads are generated for the `Modify` RPC, we give these a
-new place within the OpenConfig schema, particularly, defining a new
-`volatile`/`dynamic`/`ephemeral` subtree to correspond with the `config` and
+described in this document). Therefore, we propose that where payloads are
+generated for the `Modify` RPC, we give these a new place within the OpenConfig
+schema, particularly, defining a new
+`volatile`/`ephemeral` subtree to correspond with the `config` and
 `state` subtrees within the schema. Considering the case of an interface
 `enabled` leaf, we would therefore propose to have:
 
@@ -246,16 +245,28 @@ new place within the OpenConfig schema, particularly, defining a new
     written by a standard gNMI client.
 *   `/interfaces/interface/state/enabled` – today’s applied state, indicating
     the value that the system is currently running.
-*   `/interfaces/interface/dynamic/enabled` – a new path, indicating that this
+*   `/interfaces/interface/volatile/enabled` – a new path, indicating that this
     path can be written to via the `Modify` RPC.
 
 The latter path can be added to a YANG tree via an `augment` in a specific
 dynamic module, allowing the subset of paths that are writable to be
 discovered. Protobufs would be generated or written to correspond to the
-`dynamic` path.
+`volatile` path.
 
-The `dynamic` path SHOULD be streamed via gNMI `Subscribe` as per the existing
+The `volatile` path SHOULD be streamed via gNMI `Subscribe` as per the existing
 expectations around the `config` path.
+
+> [!NOTE]
+> The naming volatile is chosen for this "more dynamic" configuration based on
+> fact that:
+>  * This state can be cached in volatile storage (i.e., stored only in memory
+>    that is available when the device is powered on).
+>  * It corresponds with the idea of `volatile` variables in C-like programming
+>    languages, where a different reader/writer may access this value (mostly,
+>    we expect that volatile paths are written to by different systems than
+>    NMSes, namely control-plane entities).
+>  * Such state is expected to be liable to rapid change, corresponding to the
+>    common English definition of volatile.
 
 ### Validation Requirements
 
@@ -279,23 +290,23 @@ which they are received.
 
 ### Persistence of Configuration
 
-Like other control-plane protocols, the "dynamic" configuration of a device
+Like other control-plane protocols, the "volatile" configuration of a device
 is not expected to be persisted across device reboots. Data that is written
-via gNMI to a `config` path is expected to be persisted after each transaction.
-Not requiring persistence of data across reloads allows both for the
-target device to avoid the cost of writing the configuration to persistent
-storage (potentially reducing throughput); as well as models where a "default"
-value is written to a persistent `config` path, and an amended value is written
-to the `dynamic` path according to some runtime condition of the wider network
-system.
+via gNMI to a `config` path is expected to be persisted (saved to non-volatile
+storage) after each transaction. Not requiring persistence of data across 
+reloads allows both for the target device to avoid the cost of writing the 
+configuration to persistent storage (potentially reducing throughput); as well
+as models where a "default" value is written to a persistent `config` path,
+and an amended value is written to the `volatile` path according to some
+runtime condition of the wider network system.
 
 Note that `persistence` within the service definition refers to persistence
 across RPCs (i.e., clients connecting or disconnecting) not across device
 reboots.
 
-It is expected that dynamic configuration persists across device control-plane
+It is expected that volatile configuration persists across device control-plane
 card switchovers (simililarly to gRIBI) such that a client switchover does not
-require an external controller to re-push the dynamic configuration.
+require an external controller to re-push the volatile configuration.
 
 ### Security
 
