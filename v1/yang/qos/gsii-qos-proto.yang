@@ -68,15 +68,19 @@ module gsii-qos-proto {
     deviate not-supported;
   }
 
-  deviation "/qos/scheduler-policies/scheduler-policy/config" {
+  /*deviation "/qos/scheduler-policies/scheduler-policy/config" {
     deviate not-supported;
-  }
+  }*/
 
   deviation "/qos/scheduler-policies/scheduler-policy/state" {
     deviate not-supported;
   }
 
-  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/config" {
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/config/type" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/config/priority" {
     deviate not-supported;
   }
 

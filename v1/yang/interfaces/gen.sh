@@ -7,11 +7,12 @@ if [ ! -d ${REPOROOT}/deps/public ]; then
 fi
 
 ${HOME}/go/bin/proto_generator \
+	-compress_paths=true \
 	-path ${REPOROOT}/deps/public \
 	-add_schemapaths \
 	-output_dir="${REPOROOT}/v1/proto" \
 	-generate_fakeroot=false \
 	-exclude_modules=ietf-interfaces,openconfig-interfaces \
-	-package_name=openconfig \
+	-package_name="openconfig.gsii.v1.interfaces" \
 	-go_package_base="github.com/openconfig/gsii/v1/proto" \
 	${REPOROOT}/v1/yang/interfaces/gsii-interfaces-proto.yang

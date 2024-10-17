@@ -36,10 +36,26 @@ module gsii-interfaces-proto {
     uses gsii-if:interfaces-structural;
   }
 
-  deviation "/interfaces/interface/config" {
+  deviation "/interfaces/interface/config/type" {
     description
       "Do not generate protobuf for the intended state within the
       openconfig-interfaces module.";
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/mtu" {
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/loopback-mode" {
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/description" {
+    deviate not-supported;
+  }
+
+  deviation "/interfaces/interface/config/enabled" {
     deviate not-supported;
   }
 
