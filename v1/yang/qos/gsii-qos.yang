@@ -1,0 +1,51 @@
+// Copyright 2024 The OpenConfig Authors 
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+module gsii-qos {
+  namespace "http://github.com/openconfig/gsii/v1/obj/interfaces";
+  prefix "gsii-qos";
+
+  import openconfig-qos { prefix "oc-qos"; }
+
+  organization
+    "OpenConfig working group";
+  
+  contact
+    "www.openconfig.net";
+  
+  description
+    "This module defines fields that can be manipulated by the
+    gSII interface as defined in github.com/openconfig/gsii.
+
+    The module augments the openconfig-interfaces module, adding
+    new volatile leaves. To generate a protobuf the deviation module
+    gsii-interfaces-proto.yang should also be used.";
+  
+  grouping qos-policer-structural {
+    container volatile {
+      config false;
+      uses qos-policer-volatile;
+    }
+  }
+
+  grouping qos-policer-volatile {
+    leaf cir {
+      type uint64;
+      units bps;
+    }
+  }
+
+  augment "/oc-qos:qos/oc-qos:scheduler-policies/oc-qos:scheduler-policy/oc-qos:schedulers/oc-qos:scheduler/oc-qos:one-rate-two-color" {
+    uses qos-policer-structural;
+  }
+}

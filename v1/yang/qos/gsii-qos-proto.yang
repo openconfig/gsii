@@ -1,0 +1,115 @@
+// Copyright 2024 The OpenConfig Authors 
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+module gsii-qos-proto {
+  namespace "http://github.com/openconfig/gsii/v1/obj/interfaces/proto";
+  prefix "gsii-int-proto";
+
+  import openconfig-qos { prefix "oc-qos"; }
+  import gsii-qos { prefix "gsii-qos"; }
+
+  organization
+    "OpenConfig working group";
+  
+  contact
+    "www.openconfig.net";
+
+  description
+    "This module defines deviations that allow for gSII protobufs
+    to be generated for the OpenConfig path /interfaces/interface.";
+  
+  uses oc-qos:qos-top;
+
+  augment "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color" {
+    description
+      "Augment the /interfaces tree with gSII state parameters.";
+    uses gsii-qos:qos-policer-structural;
+  }
+
+  deviation "/qos/config" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/state" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/interfaces" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/classifiers" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/forwarding-groups" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/queues" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/buffer-allocation-profiles" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/queue-management-profiles" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/config" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/state" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/config" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/state" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/inputs" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/output" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color/config" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color/state" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color/conform-action" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color/exceed-action" {
+    deviate not-supported;
+  }
+
+  deviation "/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/two-rate-three-color" {
+    deviate not-supported;
+  }
+
+}
