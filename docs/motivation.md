@@ -268,6 +268,25 @@ expectations around the `config` path.
 >  * Such state is expected to be liable to rapid change, corresponding to the
 >    common English definition of volatile.
 
+#### Determining the System's applied state value
+
+Today, the intended state (`config`) path is the value that a client expects
+the target to be running for the specified leaf. With the introduction of the
+`volatile` path, there is a requirement to choose between the `config` and the
+`volatile` path.
+
+It is proposed that the target adopts the rule of:
+
+ * if the `volatile` leaf is present, this is the preferred value and should
+   be used,
+ * if no `volatile` leaf is present, the intended state (`config` path) should
+   be used.
+
+with a strict preference to prefer the volatile configuration value. In the case
+that the `volatile` value is removed (e.g., due to an RPC failure with a
+persistence mode that indicates that the values should be cleared on RPC
+failure), the system should apply the `config` value if one is present.
+
 ### Validation Requirements
 
 In order to ensure that the application time of the configuration is minimised
