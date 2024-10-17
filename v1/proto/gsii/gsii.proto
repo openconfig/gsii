@@ -125,6 +125,11 @@ message ElectionID {
 // Operation is an individual operation that acts on a specific <path, value>
 // on the device.
 message Operation {
+  // A unique identifier for the operation that is being performed by the client.
+  // This value allows the operation to be uniquely identified amongst other
+  // operations operating on the same path.
+  uint64 id = 4;
+
   // Operation is the type of operation that should be applied on the device.
   enum OperationType {
     // INVALID indicates the client did not set the operation.
@@ -161,7 +166,39 @@ message ModifyResponse {
   repeated OpResult results = 3;
 }
 
-message OpResult {}
+// OpResult is sent within the ModifyResponse message and provides an acknowledgement
+// and status for each state injection request.
+message OpResult {
+  // ID of the operation that is being acknowledged.
+  uint64 id = 1;
+  // Timestamp at which the operation status was reported, expressed as nanoseconds
+  // since the Unix epoch. The typical use of this field is to track SLIs related
+  // to the device programming time.
+  int64 timestamp = 2; 
+
+  enum Status {
+    // The status was not set to a valid value.
+    INVALID = 0;
+    // The change was applied to the device's state. This does not mean
+    // that it became the applied value -- gNMI telemetry should be monitored
+    // to determine when the 'state' value is updated.
+    OK = 1;
+    // The change failed to be applied to the device's state. Additional error
+    // details to support debugging are populated in the details field.
+    FAILED = 2; 
+  }
+  Status status = 3;
+
+  // Details for debugging and logging, populated when failures occur.
+  OpErrDetails details = 4;
+}
+
+// OpErrDetails is used to provide additional details to the client when an error
+// occurs when applying state updates.
+message OpErrDetails {
+  // A human-readable error message, used in the case that the result is FAILED.
+  string error_message = 1;
+}
 
 // SessionParametersResult is used as a response from the target to the client
 // to indicate that the session parameters have been accepted. If an error
