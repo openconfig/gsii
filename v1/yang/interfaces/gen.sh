@@ -11,7 +11,8 @@ ${HOME}/go/bin/proto_generator \
 	-path ${REPOROOT}/deps/public \
 	-add_schemapaths \
 	-output_dir="${REPOROOT}/v1/proto" \
-	-generate_fakeroot=false \
+	-generate_fakeroot=true \
+	-fakeroot_name="interfaces" \
 	-exclude_modules=ietf-interfaces,openconfig-interfaces \
 	-package_name="openconfig.gsii.v1.interfaces" \
 	-go_package_base="github.com/openconfig/gsii/v1/proto" \

@@ -17,3 +17,11 @@ option go_package = "github.com/openconfig/gsii/v1/proto/openconfig/gsii/v1/inte
 message Interface {
   ywrapper.BoolValue enabled = 75491684 [(yext.schemapath) = "/interfaces/interface/volatile/enabled"];
 }
+
+message Interfaces {
+  message InterfaceKey {
+    string name = 1 [(yext.schemapath) = "/interfaces/interface/config/name|/interfaces/interface/name"];
+    Interface interface = 2;
+  }
+  repeated InterfaceKey interface = 261221359 [(yext.schemapath) = "/interfaces/interface"];
+}

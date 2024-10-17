@@ -77,6 +77,108 @@ func (x *Interface) GetEnabled() *ywrapper.BoolValue {
 	return nil
 }
 
+type Interfaces struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Interface []*Interfaces_InterfaceKey `protobuf:"bytes,261221359,rep,name=interface,proto3" json:"interface,omitempty"`
+}
+
+func (x *Interfaces) Reset() {
+	*x = Interfaces{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Interfaces) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Interfaces) ProtoMessage() {}
+
+func (x *Interfaces) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Interfaces.ProtoReflect.Descriptor instead.
+func (*Interfaces) Descriptor() ([]byte, []int) {
+	return file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Interfaces) GetInterface() []*Interfaces_InterfaceKey {
+	if x != nil {
+		return x.Interface
+	}
+	return nil
+}
+
+type Interfaces_InterfaceKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name      string     `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Interface *Interface `protobuf:"bytes,2,opt,name=interface,proto3" json:"interface,omitempty"`
+}
+
+func (x *Interfaces_InterfaceKey) Reset() {
+	*x = Interfaces_InterfaceKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Interfaces_InterfaceKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Interfaces_InterfaceKey) ProtoMessage() {}
+
+func (x *Interfaces_InterfaceKey) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Interfaces_InterfaceKey.ProtoReflect.Descriptor instead.
+func (*Interfaces_InterfaceKey) Descriptor() ([]byte, []int) {
+	return file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_rawDescGZIP(), []int{1, 0}
+}
+
+func (x *Interfaces_InterfaceKey) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Interfaces_InterfaceKey) GetInterface() *Interface {
+	if x != nil {
+		return x.Interface
+	}
+	return nil
+}
+
 var File_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto protoreflect.FileDescriptor
 
 var file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_rawDesc = []byte{
@@ -98,7 +200,26 @@ var file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_rawDesc = []byt
 	0x2e, 0x42, 0x6f, 0x6f, 0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x42, 0x29, 0x82, 0x41, 0x26, 0x2f,
 	0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72,
 	0x66, 0x61, 0x63, 0x65, 0x2f, 0x76, 0x6f, 0x6c, 0x61, 0x74, 0x69, 0x6c, 0x65, 0x2f, 0x65, 0x6e,
-	0x61, 0x62, 0x6c, 0x65, 0x64, 0x52, 0x07, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x64, 0x42, 0x43,
+	0x61, 0x62, 0x6c, 0x65, 0x64, 0x52, 0x07, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x64, 0x22, 0xad,
+	0x02, 0x0a, 0x0a, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x12, 0x71, 0x0a,
+	0x09, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x18, 0xef, 0xd7, 0xc7, 0x7c, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x36, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x2e, 0x67, 0x73, 0x69, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61,
+	0x63, 0x65, 0x73, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x49,
+	0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x4b, 0x65, 0x79, 0x42, 0x18, 0x82, 0x41, 0x15,
+	0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x69, 0x6e, 0x74, 0x65,
+	0x72, 0x66, 0x61, 0x63, 0x65, 0x52, 0x09, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65,
+	0x1a, 0xab, 0x01, 0x0a, 0x0c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x4b, 0x65,
+	0x79, 0x12, 0x53, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
+	0x3f, 0x82, 0x41, 0x3c, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2f,
+	0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x2f, 0x6e, 0x61, 0x6d, 0x65, 0x7c, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65,
+	0x73, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x2f, 0x6e, 0x61, 0x6d, 0x65,
+	0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x46, 0x0a, 0x09, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66,
+	0x61, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x6f, 0x70, 0x65, 0x6e,
+	0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x67, 0x73, 0x69, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x69,
+	0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x73, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x66,
+	0x61, 0x63, 0x65, 0x52, 0x09, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x66, 0x61, 0x63, 0x65, 0x42, 0x43,
 	0x5a, 0x41, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x70, 0x65,
 	0x6e, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x67, 0x73, 0x69, 0x69, 0x2f, 0x76, 0x31, 0x2f,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x6f, 0x70, 0x65, 0x6e, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
@@ -118,18 +239,22 @@ func file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_rawDescGZIP() 
 	return file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_rawDescData
 }
 
-var file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_goTypes = []any{
-	(*Interface)(nil),          // 0: openconfig.gsii.v1.interfaces.Interface
-	(*ywrapper.BoolValue)(nil), // 1: ywrapper.BoolValue
+	(*Interface)(nil),               // 0: openconfig.gsii.v1.interfaces.Interface
+	(*Interfaces)(nil),              // 1: openconfig.gsii.v1.interfaces.Interfaces
+	(*Interfaces_InterfaceKey)(nil), // 2: openconfig.gsii.v1.interfaces.Interfaces.InterfaceKey
+	(*ywrapper.BoolValue)(nil),      // 3: ywrapper.BoolValue
 }
 var file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_depIdxs = []int32{
-	1, // 0: openconfig.gsii.v1.interfaces.Interface.enabled:type_name -> ywrapper.BoolValue
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 0: openconfig.gsii.v1.interfaces.Interface.enabled:type_name -> ywrapper.BoolValue
+	2, // 1: openconfig.gsii.v1.interfaces.Interfaces.interface:type_name -> openconfig.gsii.v1.interfaces.Interfaces.InterfaceKey
+	0, // 2: openconfig.gsii.v1.interfaces.Interfaces.InterfaceKey.interface:type_name -> openconfig.gsii.v1.interfaces.Interface
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_init() }
@@ -150,6 +275,30 @@ func file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_init() {
 				return nil
 			}
 		}
+		file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*Interfaces); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*Interfaces_InterfaceKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -157,7 +306,7 @@ func file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_v1_proto_openconfig_gsii_v1_interfaces_interfaces_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
